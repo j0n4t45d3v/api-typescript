@@ -40,5 +40,34 @@ class UserController {
             }
         });
     }
+    updateUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.params.id;
+            const userData = req.body;
+            try {
+                yield User_1.User.findByIdAndUpdate(id, userData);
+                res.status(200).json({ message: "Usuario atualizado!" });
+            }
+            catch (error) {
+                res.status(500).json({ error });
+            }
+        });
+    }
+    deleteUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.params.id;
+            const existUser = yield User_1.User.findById(id);
+            if (!existUser) {
+                res.status(404).json({ message: "Usuario não existe" });
+            }
+            try {
+                yield User_1.User.findByIdAndDelete(id);
+                res.status(200).json({ message: "Usuario deletado" });
+            }
+            catch (error) {
+                res.status(500).json({ error });
+            }
+        });
+    }
 }
 exports.default = new UserController();
